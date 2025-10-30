@@ -57,6 +57,36 @@ int main()
         contadorRainha++;
     } while (contadorRainha <= casasRainha && colunaRainha >= 0);
 
+    // ===================== CAVALO =====================
+    // Movimento: 2 casas para baixo e 1 para a esquerda (usando loops aninhados)
+    printf("\n===== Movimento do CAVALO =====\n");
+    int linhaCavalo = 4;
+    int colunaCavalo = 4;
+    char cavalo = 'C';
+    int casasBaixo = 2;
+    int casasEsquerda = 1;
+
+    printf("O Cavalo se move em 'L' (2 para Baixo, 1 para Esquerda):\n\n");
+
+    // Primeiro loop FOR: move 2 casas para baixo
+    for (int i = 1; i <= casasBaixo; i++)
+    {
+        linhaCavalo++;
+        printf("Passo %d: Baixo\n", i);
+
+        // Loop interno WHILE para simular a segunda parte do movimento (1 para a esquerda)
+        if (i == casasBaixo) // só move para a esquerda após terminar as 2 casas para baixo
+        {
+            int contador = 1;
+            while (contador <= casasEsquerda)
+            {
+                colunaCavalo--;
+                printf("Passo %d: Esquerda\n", i + contador);
+                contador++;
+            }
+        }
+    }
+
     printf("===== Fim da Simulação =====\n");
 
     return 0;
