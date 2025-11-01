@@ -3,91 +3,107 @@
 // Desafio de Xadrez - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
+
+// Função recursiva para mover a Torre (para a direita)
+// ===================== TORRE =====================
+void moverTorre(int casasRestantes, int passoAtual)
+{
+    if (casasRestantes == 0)
+        return;
+
+    printf("Passo %d: Direita\n", passoAtual);
+    moverTorre(casasRestantes - 1, passoAtual + 1);
+}
+
+// ===================== RAINHA =====================
+void moverRainha(int casasRestantes, int passoAtual)
+{
+    if (casasRestantes == 0)
+        return;
+
+    printf("Passo %d: Esquerda\n", passoAtual);
+    moverRainha(casasRestantes - 1, passoAtual + 1);
+}
+
+// ===================== BISPO =====================
+// Recursivo + loops aninhados + contador de passo
+void moverBispo(int casasRestantes, int passoAtual)
+{
+    if (casasRestantes == 0)
+        return; // Condição de parada
+
+    // Loop aninhado: for para "Cima", while para "Direita"
+    for (int linha = 0; linha < 1; linha++)
+    {
+        printf("Cima\n");
+        int coluna = 0;
+        while (coluna < 1)
+        {
+            printf("Direita\n");
+            coluna++;
+        }
+        printf("Passo %d: Cima, Direita\n", passoAtual);
+    }
+
+    moverBispo(casasRestantes - 1, passoAtual + 1); // Chamada recursiva
+};
+
+// ===================== Função principal =====================
 int main()
 {
     // ===================== TORRE =====================
-    // Movimento: 5 casas para a direita (usando FOR)
-    printf("===== Movimento da TORRE =====\n");
-    int linhaTorre = 3;  // linha inicial
-    int colunaTorre = 0; // coluna inicial
-    char torre = 'T';
+    printf("===== Movimento da TORRE (Recursividade) =====\n");
     int casasTorre = 5;
-
-    printf("A Torre se move 5 casas para a direita:\n\n");
-    for (int passo = 1; passo <= casasTorre; passo++)
-    {
-        colunaTorre++; // move uma casa para a direita
-        printf("Passo %d: Direita\n", passo);
-    }
+    printf("A Torre se move %d casas para a direita:\n\n", casasTorre);
+    moverTorre(casasTorre, 1);
 
     // ===================== BISPO =====================
-    // Movimento: 5 casas na diagonal (usando WHILE)
-    printf("===== Movimento do BISPO =====\n");
-    int linhaBispo = 6;
-    int colunaBispo = 0;
-    char bispo = 'B';
-    int casasBispo = 5;
-    int contadorBispo = 1;
-
-    printf("O Bispo se move 5 casas na diagonal (Cima, Direita):\n\n");
-
-    while (contadorBispo <= casasBispo)
-    {
-        linhaBispo--;  // cima
-        colunaBispo++; // direita
-        printf("Passo %d: Cima, Direita\n", contadorBispo);
-        contadorBispo++;
-    }
+    printf("\n===== Movimento do BISPO (Recursividade + Loops Aninhados) =====\n");
+    int linhasColunasBispo = 5;
+    printf("O Bispo se move na diagonal (Cima, Direita):\n\n");
+    moverBispo(linhasColunasBispo, 1);
 
     // ===================== RAINHA =====================
-    // Movimento: 8 casas para a esquerda (usando DO-WHILE)
-    printf("===== Movimento da RAINHA =====\n");
-    int linhaRainha = 2;
-    int colunaRainha = 7;
-    char rainha = 'R';
+    printf("\n===== Movimento da RAINHA (Recursividade) =====\n");
     int casasRainha = 8;
-    int contadorRainha = 1;
-
-    printf("A Rainha se move 8 casas para a esquerda:\n\n");
-
-    do
-    {
-        colunaRainha--; // esquerda
-        printf("Passo %d: Esquerda\n", contadorRainha);
-        contadorRainha++;
-    } while (contadorRainha <= casasRainha && colunaRainha >= 0);
+    printf("A Rainha se move %d casas para a esquerda:\n\n", casasRainha);
+    moverRainha(casasRainha, 1);
 
     // ===================== CAVALO =====================
-    // Movimento: 2 casas para baixo e 1 para a esquerda (usando loops aninhados)
-    printf("\n===== Movimento do CAVALO =====\n");
-    int linhaCavalo = 4;
-    int colunaCavalo = 4;
-    char cavalo = 'C';
-    int casasBaixo = 2;
-    int casasEsquerda = 1;
+    printf("\n===== Movimento do CAVALO (Loops Complexos) =====\n");
+    printf("O Cavalo se move em 'L' (2 para Cima e 1 para a Direita):\n\n");
 
-    printf("O Cavalo se move em 'L' (2 para Baixo, 1 para Esquerda):\n\n");
+    int movimentoVertical = 0;
+    int movimentoHorizontal = 0;
+    int limiteVertical = 2;
+    int limiteHorizontal = 1;
 
-    // Primeiro loop FOR: move 2 casas para baixo
-    for (int i = 1; i <= casasBaixo; i++)
+    // Loop externo controla o movimento vertical
+    for (int coluna = 1; coluna <= limiteVertical; coluna++)
     {
-        linhaCavalo++;
-        printf("Passo %d: Baixo\n", i);
+        movimentoVertical++;
+        printf("Passo %d: Cima\n", coluna);
 
-        // Loop interno WHILE para simular a segunda parte do movimento (1 para a esquerda)
-        if (i == casasBaixo) // só move para a esquerda após terminar as 2 casas para baixo
+        // Loop interno controla o movimento horizontal
+        for (int linha = 1; linha <= limiteHorizontal; linha++)
         {
-            int contador = 1;
-            while (contador <= casasEsquerda)
+            movimentoHorizontal++;
+
+            // Exemplo de controle de fluxo com continue e break
+            if (coluna == 1 && linha == 1)
             {
-                colunaCavalo--;
-                printf("Passo %d: Esquerda\n", i + contador);
-                contador++;
+                continue; // ignora o primeiro ciclo horizontal
+            }
+
+            if (coluna == limiteVertical)
+            {
+                printf("Passo %d: Direita\n", coluna + linha);
+                break; // encerra o loop após completar o "L"
             }
         }
     }
 
-    printf("===== Fim da Simulação =====\n");
+    printf("\n===== Fim da Simulação =====\n");
 
     return 0;
 }
